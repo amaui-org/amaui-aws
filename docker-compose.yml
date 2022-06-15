@@ -1,0 +1,31 @@
+---
+version: '3.8'
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    environment:
+      - SERVICES=s3
+      - AWS_DEFAULT_REGION=eu-central-1
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - '~/.amaui/.localstack:/tmp/localstack'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    ports:
+      - '4563-4599:4563-4599'
+      - '8055:8080'
+
+  localstack-test:
+    image: localstack/localstack:latest
+    container_name: localstack-test
+    environment:
+      - SERVICES=s3
+      - AWS_DEFAULT_REGION=eu-central-1
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - '~/.amaui/.test/.localstack:/tmp/localstack'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    ports:
+      - '7563-7599:4563-4599'
+      - '7055:8080'
