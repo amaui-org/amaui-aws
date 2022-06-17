@@ -19,6 +19,14 @@
     "@amaui/utils" "^1.0.113"
     "@babel/runtime" "^7.16.3"
 
+"@amaui/date@^1.0.1111":
+  version "1.0.1111"
+  resolved "https://registry.yarnpkg.com/@amaui/date/-/date-1.0.1111.tgz#ebaa910df86840daba8b0ece7227d3f5b100e92a"
+  integrity sha512-bRIGShwQx6/OoeBkAUQyTJH1090U/MdiLnNX0dZVYYguJxOAWcAALkNgDQ2RqAoI5w4fnvMutzuly1XUHtYZhQ==
+  dependencies:
+    "@amaui/utils" "^1.0.1874"
+    "@babel/runtime" "^7.18.3"
+
 "@amaui/date@^1.0.115", "@amaui/date@^1.0.117", "@amaui/date@^1.0.123":
   version "1.0.123"
   resolved "https://registry.yarnpkg.com/@amaui/date/-/date-1.0.123.tgz#4046d767c6991c056dd2dd9c766cfb4ca104ba7c"
@@ -49,6 +57,13 @@
   dependencies:
     "@babel/runtime" "^7.16.3"
 
+"@amaui/errors@^1.0.111":
+  version "1.0.111"
+  resolved "https://registry.yarnpkg.com/@amaui/errors/-/errors-1.0.111.tgz#c5b06d4d4e9a29f9640a4939b3b6c92c2b6d22cf"
+  integrity sha512-BDg5f3S/BVAfRp4a4XFj/JgeIZPUjYzc7a3im2rtgzWl05LIz2ZzgIVIJWEr+Vj2/vRQgvIiL/3fbC7RKFki1A==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+
 "@amaui/huffman-code@^1.0.123":
   version "1.0.123"
   resolved "https://registry.yarnpkg.com/@amaui/huffman-code/-/huffman-code-1.0.123.tgz#4704e4e4865707cf065027edaee0213cadd186f5"
@@ -56,16 +71,6 @@
   dependencies:
     "@amaui/date" "^1.0.117"
     "@amaui/utils" "^1.0.130"
-    "@babel/runtime" "^7.16.3"
-
-"@amaui/log@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@amaui/log/-/log-1.0.1.tgz#7e3ec2c6fc0b6f5484458cc3184cfafde0faf389"
-  integrity sha512-U9TRRS6vqysePMyRIgVR01+sF6SibpQ2kP4lLemzawn5oQdOkWc9ocsw4unY+WeFYecxAE22tCRq+mxj7GZNTA==
-  dependencies:
-    "@amaui/date" "^1.0.111"
-    "@amaui/subscription" "^1.0.111"
-    "@amaui/utils" "^1.0.113"
     "@babel/runtime" "^7.16.3"
 
 "@amaui/log@^1.0.111":
@@ -77,6 +82,16 @@
     "@amaui/subscription" "^1.0.111"
     "@amaui/utils" "^1.0.113"
     "@babel/runtime" "^7.16.3"
+
+"@amaui/log@^1.0.1111":
+  version "1.0.1111"
+  resolved "https://registry.yarnpkg.com/@amaui/log/-/log-1.0.1111.tgz#9044b5f5099ab3be6914de3fb65430f8a1955898"
+  integrity sha512-dTa1Os+H9ycvrWcBrRwqdXGxkxrEtjSZaGzZNQ1lPDCxecm9YI3UoZ/k74c7fZrwMXPmjjzHT9Ze/5Bz8jkoAA==
+  dependencies:
+    "@amaui/date" "^1.0.1111"
+    "@amaui/subscription" "^1.0.1111"
+    "@amaui/utils" "^1.0.1874"
+    "@babel/runtime" "^7.18.3"
 
 "@amaui/lz77@^1.0.121":
   version "1.0.121"
@@ -114,6 +129,14 @@
   dependencies:
     "@amaui/utils" "^1.0.113"
     "@babel/runtime" "^7.16.3"
+
+"@amaui/subscription@^1.0.1111":
+  version "1.0.1111"
+  resolved "https://registry.yarnpkg.com/@amaui/subscription/-/subscription-1.0.1111.tgz#2de0a827fa3c91ff21db7255575e32f339a764f8"
+  integrity sha512-KZnzygeg2gI3hqUAD7Ut7DQKb6fo+wQbqGB0tlbhgOhj6s9Lf3vyHex6h/X4DyrwAIUJ4rADbXBpgQqVOkTiSA==
+  dependencies:
+    "@amaui/utils" "^1.0.1874"
+    "@babel/runtime" "^7.18.3"
 
 "@amaui/test@^1.0.147":
   version "1.0.147"
@@ -161,14 +184,14 @@
     path-to-regexp "^6.2.0"
     uuid "^8.3.2"
 
-"@amaui/utils@^1.0.174":
-  version "1.0.174"
-  resolved "https://registry.yarnpkg.com/@amaui/utils/-/utils-1.0.174.tgz#f9db9802a7b471e692ff4a98dcae3b9921c57df5"
-  integrity sha512-BeGxiVxQbnuE/jUczprge19Tnw9X9KEKgkjM8+LXwmpU+0EvPU1qScU33sPNNa5Yq3FoGNVrWVaTRCR5my7b1w==
+"@amaui/utils@^1.0.1874":
+  version "1.0.1874"
+  resolved "https://registry.yarnpkg.com/@amaui/utils/-/utils-1.0.1874.tgz#41fe174b0c7a66c2fcae3eb7742ee830a3864a85"
+  integrity sha512-pVJlw8P2oQDZHgYWFTOPwo80/1x89aRIitq2YMiQFL9/f/KHY+QtN44bOKHc5x8qdo7eIwB2HK6w4/eBmmkGcQ==
   dependencies:
-    "@babel/runtime" "^7.16.3"
+    "@babel/runtime" "^7.18.3"
     crypto-js "^4.1.1"
-    path-to-regexp "^6.2.0"
+    path-to-regexp "^6.2.1"
     uuid "^8.3.2"
 
 "@amaui/zip@^1.0.111":
@@ -1093,6 +1116,13 @@
   version "7.17.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.0.tgz#b8d142fc0f7664fb3d9b5833fd40dcbab89276c0"
   integrity sha512-etcO/ohMNaNA2UBdaXBBSX/3aEzFMRrVfaPv8Ptc0k+cWpWW0QFiGZ2XnVqQZI1Cf734LbPGmqBKWESfW4x/dQ==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
+"@babel/runtime@^7.18.3":
+  version "7.18.3"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.3.tgz#c7b654b57f6f63cf7f8b418ac9ca04408c4579f4"
+  integrity sha512-38Y8f7YUhce/K7RMwTp7m0uCumpv9hZkitCbBClqQIow1qSbCvGkcegKOXpEWCQLfWmevgRiWokZ1GkpfhbZug==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -4484,6 +4514,11 @@ path-to-regexp@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-6.2.0.tgz#f7b3803336104c346889adece614669230645f38"
   integrity sha512-f66KywYG6+43afgE/8j/GoiNyygk/bnoCbps++3ErRKsIYkGGupyv07R2Ok5m9i67Iqc+T2g1eAUGUPzWhYTyg==
+
+path-to-regexp@^6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-6.2.1.tgz#d54934d6798eb9e5ef14e7af7962c945906918e5"
+  integrity sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw==
 
 pbkdf2@^3.0.3:
   version "3.1.2"

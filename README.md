@@ -19,7 +19,6 @@
 <h3 align='center'>
   <sub>MIT license&nbsp;&nbsp;&nbsp;&nbsp;</sub>
   <sub>Production ready&nbsp;&nbsp;&nbsp;&nbsp;</sub>
-  <sub>11.9kb gzipped&nbsp;&nbsp;&nbsp;&nbsp;</sub>
   <sub>100% test cov&nbsp;&nbsp;&nbsp;&nbsp;</sub>
   <sub>Nodejs</sub>
 </h3>
