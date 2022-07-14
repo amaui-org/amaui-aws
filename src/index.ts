@@ -1,3 +1,1 @@
-import { default as AmauiAws } from './amaui-aws';
-
-export default AmauiAws;
+export { default } from './amaui-aws';

@@ -1,6 +1,6 @@
 {
   "name": "@amaui/aws",
-  "version": "1.0.111",
+  "version": "1.0.1111",
   "description": "AWS",
   "repository": "https://github.com/amaui-org/amaui-aws.git",
   "author": "Lazar <lazareric.com@gmail.com>",
@@ -42,10 +42,10 @@
     "aws-sdk": "^2.1054.0"
   },
   "dependencies": {
-    "@amaui/date": "^1.0.11114",
+    "@amaui/date": "^1.0.11414",
     "@amaui/errors": "^1.0.111",
-    "@amaui/log": "^1.0.11114",
-    "@amaui/utils": "^1.0.11114",
+    "@amaui/log": "^1.0.11141",
+    "@amaui/utils": "^1.0.11411",
     "@babel/runtime": "^7.18.3"
   },
   "devDependencies": {
@@ -58,14 +58,14 @@
     "@babel/preset-typescript": "^7.16.0",
     "@types/aws-sdk": "^2.7.0",
     "@types/express": "^4.17.13",
-    "@types/node": "^16.11.10",
+    "@types/node": "^18.0.4",
     "aws-sdk": "^2.1068.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "fast-glob": "^3.2.7",
     "fs-extra": "^10.0.0",
-    "react": "^17.0.2",
+    "react": "^18.2.0",
     "rimraf": "^3.0.2",
     "ts-node": "^10.4.0",
     "tslint": "^6.1.3",

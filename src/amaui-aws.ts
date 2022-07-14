@@ -1,9 +1,13 @@
 import aws from 'aws-sdk';
 import express from 'express';
 
-import { is, stringify, parse, merge } from '@amaui/utils';
+import is from '@amaui/utils/is';
+import merge from '@amaui/utils/merge';
+import parse from '@amaui/utils/parse';
+import stringify from '@amaui/utils/stringify';
 import { AmauiAwsError } from '@amaui/errors';
-import { AmauiDate, duration } from '@amaui/date';
+import AmauiDate from '@amaui/date/amaui-date';
+import duration from '@amaui/date/duration';
 import AmauiLog from '@amaui/log';
 
 interface IOptions {
