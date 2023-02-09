@@ -50,7 +50,7 @@
 ```javascript
   import AmauiAws from '@amaui/aws';
   // Make if you wanna a config file and
-  // inside of it add all the process.env aws related props
+  // inside of it add all the process.env related props
   import Config from './config';
 
   // Make a new aws instance
