@@ -10,16 +10,45 @@ import AmauiDate from '@amaui/date/amaui-date';
 import duration from '@amaui/date/duration';
 import AmauiLog from '@amaui/log';
 
-export interface IOptionsAccessCredentials {
+export interface IConnections {
+  s3?: aws.S3;
+}
+
+export interface IOptionsS3Add {
+  bucket_name?: string
+}
+
+export interface IOptionsS3Get {
+  bucket_name?: string;
+  type: 'buffer' | 'json' | 'text';
+  pure?: boolean;
+}
+
+export interface IOptionsS3Remove {
+  bucket_name?: string;
+  pure?: boolean;
+}
+
+export interface IOptionsS3RemoveMany {
+  bucket_name?: string;
+  pure?: boolean;
+}
+
+export interface IOptionsS3AccessCredentials {
   accessKeyId: string;
   secretAccessKey: string;
 };
 
-export interface IOptionsAccess {
+export interface IOptionsS3Access {
   endpoint: string;
-  credentials: IOptionsAccessCredentials;
+  credentials: IOptionsS3AccessCredentials;
 
   [p: string]: any;
+}
+
+export interface IOptionsS3 {
+  access: IOptionsS3Access;
+  bucket_name?: string;
 }
 
 export interface IOptionsConfig {
@@ -31,38 +60,9 @@ export interface IOptionsConfig {
   [p: string]: any;
 }
 
-export interface IOptionsAdd {
-  bucket_name?: string
-}
-
-export interface IOptionsGet {
-  bucket_name?: string;
-  type: 'buffer' | 'json' | 'text';
-  pure?: boolean;
-}
-
-export interface IOptionsRemove {
-  bucket_name?: string;
-  pure?: boolean;
-}
-
-export interface IOptionsRemoveMany {
-  bucket_name?: string;
-  pure?: boolean;
-}
-
-export interface IOptionsS3 {
-  access: IOptionsAccess;
-  bucket_name?: string;
-}
-
 export interface IOptions {
   s3: IOptionsS3;
   config?: IOptionsConfig;
-}
-
-export interface IConnections {
-  s3?: aws.S3;
 }
 
 const optionsDefault = {
@@ -104,7 +104,7 @@ export class AmauiAws {
     const thisClass = this;
 
     return {
-      async add(id: string, value_: any, options: IOptionsAdd = {}): Promise<aws.S3.PutObjectOutput> {
+      async add(id: string, value_: any, options: IOptionsS3Add = {}): Promise<aws.S3.PutObjectOutput> {
         const connection = thisClass.connections.s3;
         const start = AmauiDate.utc.milliseconds;
 
@@ -130,7 +130,7 @@ export class AmauiAws {
         }
       },
 
-      async get(id: string, options: IOptionsGet = { type: 'buffer' }): Promise<aws.S3.GetObjectOutput | Buffer | string | object> {
+      async get(id: string, options: IOptionsS3Get = { type: 'buffer' }): Promise<aws.S3.GetObjectOutput | Buffer | string | object> {
         const connection = thisClass.connections.s3;
         const start = AmauiDate.utc.milliseconds;
 
@@ -162,7 +162,7 @@ export class AmauiAws {
         }
       },
 
-      async remove(id: string, options: IOptionsRemove = {}): Promise<aws.S3.DeleteObjectOutput | boolean> {
+      async remove(id: string, options: IOptionsS3Remove = {}): Promise<aws.S3.DeleteObjectOutput | boolean> {
         const connection = thisClass.connections.s3;
         const start = AmauiDate.utc.milliseconds;
 
@@ -188,7 +188,7 @@ export class AmauiAws {
         }
       },
 
-      async removeMany(ids: string[], options: IOptionsRemoveMany = {}): Promise<Array<aws.S3.DeleteObjectOutput | boolean | Error>> {
+      async removeMany(ids: string[], options: IOptionsS3RemoveMany = {}): Promise<Array<aws.S3.DeleteObjectOutput | boolean | Error>> {
         const responses = [];
         const start = AmauiDate.utc.milliseconds;
 
