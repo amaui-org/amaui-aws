@@ -51,33 +51,36 @@
 
   // Make a new aws instance
   const amauiAws = new AmauiAws({
-    access: {
-      endpoint: Config.aws.s3.endpoint,
-      credentials: {
-        accessKeyId: Config.aws.s3.access_key_id,
-        secretAccessKey: Config.aws.s3.secret_access_key,
+    s3: {
+      access: {
+        endpoint: Config.aws.s3.endpoint,
+
+        credentials: {
+          accessKeyId: Config.aws.s3.access_key_id,
+          secretAccessKey: Config.aws.s3.secret_access_key
+        }
       },
+
+      bucket_name: Config.aws.s3.bucket_name
     },
 
     config: {
       region: Config.aws.s3.region,
     },
-
-    bucket_name: Config.aws.s3.bucket_name,
   });
 
   // Add
-  await awsS3.add('a', 4);
+  await amauiAws.s3.add('a', 4);
 
   // Get
-  await awsS3.get('a');
+  await amauiAws.s3.get('a');
 
   // 4
 
   // Remove
-  await awsS3.remove('a');
+  await amauiAws.s3.remove('a');
 
-  await awsS3.get('a');
+  await amauiAws.s3.get('a');
 
   // undefined
 ```
