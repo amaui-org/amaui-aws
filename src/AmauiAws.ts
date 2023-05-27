@@ -10,19 +10,19 @@ import AmauiDate from '@amaui/date/amaui-date';
 import duration from '@amaui/date/duration';
 import AmauiLog from '@amaui/log';
 
-interface IOptionsAccessCredentials {
+export interface IOptionsAccessCredentials {
   accessKeyId: string;
   secretAccessKey: string;
 };
 
-interface IOptionsAccess {
+export interface IOptionsAccess {
   endpoint: string;
   credentials: IOptionsAccessCredentials;
 
   [p: string]: any;
 }
 
-interface IOptionsConfig {
+export interface IOptionsConfig {
   region?: string;
   apiVersion?: string;
   signatureVersion?: string;
@@ -31,29 +31,38 @@ interface IOptionsConfig {
   [p: string]: any;
 }
 
-interface IOptionsAdd {
+export interface IOptionsAdd {
   bucket_name?: string
 }
 
-interface IOptionsGet {
+export interface IOptionsGet {
   bucket_name?: string;
-  type: 'buffer' | 'json' | 'text'; pure?: boolean;
+  type: 'buffer' | 'json' | 'text';
+  pure?: boolean;
 }
 
-interface IOptionsRemove {
+export interface IOptionsRemove {
   bucket_name?: string;
   pure?: boolean;
 }
 
-interface IOptionsRemoveMany {
+export interface IOptionsRemoveMany {
   bucket_name?: string;
   pure?: boolean;
 }
 
-interface IOptions {
+export interface IOptionsS3 {
   access: IOptionsAccess;
-  config?: IOptionsConfig;
   bucket_name?: string;
+}
+
+export interface IOptions {
+  s3: IOptionsS3;
+  config?: IOptionsConfig;
+}
+
+export interface IConnections {
+  s3?: aws.S3;
 }
 
 const optionsDefault = {
@@ -65,14 +74,14 @@ const optionsDefault = {
 };
 
 export class AmauiAws {
-  private connection_: aws.S3;
   private options: IOptions;
+  private connections_: IConnections = {};
   private amalog: AmauiLog;
 
-  public get connection(): aws.S3 {
-    if (!this.connection_) this.connection_ = new aws.S3(this.options.access);
+  public get connections(): IConnections {
+    if (!this.connections_.s3) this.connections_.s3 = new aws.S3(this.options.s3.access);
 
-    return this.connection_;
+    return this.connections_;
   }
 
   public constructor(options: IOptions) {
@@ -82,7 +91,7 @@ export class AmauiAws {
     this.setup();
 
     // Get initial connection
-    this.connection;
+    this.connections;
 
     this.amalog = new AmauiLog({
       arguments: {
@@ -91,108 +100,114 @@ export class AmauiAws {
     });
   }
 
-  public async add(id: string, value_: any, options: IOptionsAdd = {}): Promise<aws.S3.PutObjectOutput> {
-    const connection = this.connection;
-    const start = AmauiDate.utc.milliseconds;
+  public get s3() {
+    const thisClass = this;
 
-    const bucket_name = options.bucket_name || this.options.bucket_name;
+    return {
+      async add(id: string, value_: any, options: IOptionsAdd = {}): Promise<aws.S3.PutObjectOutput> {
+        const connection = thisClass.connections.s3;
+        const start = AmauiDate.utc.milliseconds;
 
-    let value = value_;
+        const bucket_name = options.bucket_name || thisClass.options.s3.bucket_name;
 
-    if (!(is('string', value) || is('buffer', value))) value = stringify(value);
+        let value = value_;
 
-    try {
-      const response = await connection.putObject({
-        Key: String(id),
-        Body: Buffer.from(value, 'binary'),
-        Bucket: bucket_name,
-      }).promise();
+        if (!(is('string', value) || is('buffer', value))) value = stringify(value);
 
-      return this.response(start, bucket_name, 'add', response);
-    }
-    catch (error) {
-      this.response(start, bucket_name, 'add');
+        try {
+          const response = await connection.putObject({
+            Key: String(id),
+            Body: Buffer.from(value, 'binary'),
+            Bucket: bucket_name,
+          }).promise();
 
-      throw new AmauiAwsError(error);
-    }
-  }
+          return thisClass.response(start, bucket_name, 'add', response);
+        }
+        catch (error) {
+          thisClass.response(start, bucket_name, 'add');
 
-  public async get(id: string, options: IOptionsGet = { type: 'buffer' }): Promise<aws.S3.GetObjectOutput | Buffer | string | object> {
-    const connection = this.connection;
-    const start = AmauiDate.utc.milliseconds;
+          throw new AmauiAwsError(error);
+        }
+      },
 
-    const { type, pure } = options;
-    const bucket_name = options.bucket_name || this.options.bucket_name;
+      async get(id: string, options: IOptionsGet = { type: 'buffer' }): Promise<aws.S3.GetObjectOutput | Buffer | string | object> {
+        const connection = thisClass.connections.s3;
+        const start = AmauiDate.utc.milliseconds;
 
-    try {
-      const response = await connection.getObject({
-        Key: String(id),
-        Bucket: bucket_name,
-      }).promise();
+        const { type, pure } = options;
+        const bucket_name = options.bucket_name || thisClass.options.s3.bucket_name;
 
-      let value = response.Body;
+        try {
+          const response = await connection.getObject({
+            Key: String(id),
+            Bucket: bucket_name,
+          }).promise();
 
-      if (value !== undefined) {
-        if (['json', 'text'].indexOf(type) > -1) value = value.toString('utf-8');
+          let value = response.Body;
 
-        if (['json'].indexOf(type) > -1) value = parse(value);
+          if (value !== undefined) {
+            if (['json', 'text'].indexOf(type) > -1) value = value.toString('utf-8');
+
+            if (['json'].indexOf(type) > -1) value = parse(value);
+          }
+
+          return thisClass.response(start, bucket_name, 'get', pure ? response : value);
+        }
+        catch (error) {
+          if (['NoSuchKey'].indexOf(error.code) > -1) return thisClass.response(start, bucket_name, 'get');
+
+          thisClass.response(start, bucket_name, 'get');
+
+          throw new AmauiAwsError(error);
+        }
+      },
+
+      async remove(id: string, options: IOptionsRemove = {}): Promise<aws.S3.DeleteObjectOutput | boolean> {
+        const connection = thisClass.connections.s3;
+        const start = AmauiDate.utc.milliseconds;
+
+        const { pure } = options;
+        const bucket_name = options.bucket_name || thisClass.options.s3.bucket_name;
+
+        try {
+          const response = await connection.deleteObject({
+            Key: String(id),
+            Bucket: bucket_name,
+          }).promise();
+
+          const value = response.DeleteMarker;
+
+          return thisClass.response(start, bucket_name, 'remove', pure ? response : value);
+        }
+        catch (error) {
+          if (['NoSuchKey'].indexOf(error.code) > -1) return thisClass.response(start, bucket_name, 'remove');
+
+          thisClass.response(start, bucket_name, 'remove');
+
+          throw new AmauiAwsError(error);
+        }
+      },
+
+      async removeMany(ids: string[], options: IOptionsRemoveMany = {}): Promise<Array<aws.S3.DeleteObjectOutput | boolean | Error>> {
+        const responses = [];
+        const start = AmauiDate.utc.milliseconds;
+
+        const bucket_name = options.bucket_name || thisClass.options.s3.bucket_name;
+
+        for (const id of ids) {
+          try {
+            const response = await thisClass.s3.remove(id, options);
+
+            responses.push(response);
+          }
+          catch (error) {
+            responses.push(error);
+          }
+        }
+
+        return thisClass.response(start, bucket_name, 'removeMany', responses);
       }
-
-      return this.response(start, bucket_name, 'get', pure ? response : value);
-    }
-    catch (error) {
-      if (['NoSuchKey'].indexOf(error.code) > -1) return this.response(start, bucket_name, 'get');
-
-      this.response(start, bucket_name, 'get');
-
-      throw new AmauiAwsError(error);
-    }
-  }
-
-  public async remove(id: string, options: IOptionsRemove = {}): Promise<aws.S3.DeleteObjectOutput | boolean> {
-    const connection = this.connection;
-    const start = AmauiDate.utc.milliseconds;
-
-    const { pure } = options;
-    const bucket_name = options.bucket_name || this.options.bucket_name;
-
-    try {
-      const response = await connection.deleteObject({
-        Key: String(id),
-        Bucket: bucket_name,
-      }).promise();
-
-      const value = response.DeleteMarker;
-
-      return this.response(start, bucket_name, 'remove', pure ? response : value);
-    }
-    catch (error) {
-      if (['NoSuchKey'].indexOf(error.code) > -1) return this.response(start, bucket_name, 'remove');
-
-      this.response(start, bucket_name, 'remove');
-
-      throw new AmauiAwsError(error);
-    }
-  }
-
-  public async removeMany(ids: string[], options: IOptionsRemoveMany = {}): Promise<Array<aws.S3.DeleteObjectOutput | boolean | Error>> {
-    const responses = [];
-    const start = AmauiDate.utc.milliseconds;
-
-    const bucket_name = options.bucket_name || this.options.bucket_name;
-
-    for (const id of ids) {
-      try {
-        const response = await this.remove(id, options);
-
-        responses.push(response);
-      }
-      catch (error) {
-        responses.push(error);
-      }
-    }
-
-    return this.response(start, bucket_name, 'removeMany', responses);
+    };
   }
 
   private setup() {
