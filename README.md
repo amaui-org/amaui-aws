@@ -120,14 +120,6 @@ Make docker containers
   yarn docker
 ```
 
-Make local S3 bucket
-
-```sh
-  yarn make-bucket
-
-  yarn make-bucket-test
-```
-
 ### Prod
 
 Build

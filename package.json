@@ -27,16 +27,17 @@
     "utils"
   ],
   "scripts": {
-    "docker": "docker-compose -p 'amaui' up -d",
-    "make-bucket": "cross-env AWS_ACCESS_KEY_ID=a AWS_SECRET_ACCESS_KEY=a4 aws s3 mb s3://amaui --endpoint-url http://localhost:4566",
-    "make-bucket-test": "cross-env AWS_ACCESS_KEY_ID=a AWS_SECRET_ACCESS_KEY=a4 aws s3 mb s3://amaui-test --endpoint-url http://localhost:7566",
     "prebuild": "rimraf build",
     "build": "node utils/js/build.js",
     "release": "yarn test && yarn build && npm publish ./build",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "type": "tsc --noEmit -p tsconfig.json",
     "cov": "cross-env NODE_ENV=test amaui-test",
-    "test": "yarn lint && yarn type && yarn build &&yarn cov"
+    "test": "yarn lint && yarn type && yarn build &&yarn cov",
+    "docker": "docker-compose -p 'amaui' up -d",
+    "aws": "cross-env AWS_ACCESS_KEY_ID=a AWS_SECRET_ACCESS_KEY=a4 aws s3 mb s3://amaui --endpoint-url http://localhost:4566",
+    "aws-test": "cross-env AWS_ACCESS_KEY_ID=a AWS_SECRET_ACCESS_KEY=a4 aws s3 mb s3://amaui-test --endpoint-url http://localhost:7566",
+    "postdocker": "sleep 4 && yarn aws || echo '' && yarn aws-test || echo ''"
   },
   "peerDependencies": {
     "aws-sdk": "^2.1054.0"
