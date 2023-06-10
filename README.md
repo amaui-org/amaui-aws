@@ -87,6 +87,18 @@
 
 ### Dev
 
+Install
+
+```sh
+  yarn
+```
+
+Test
+
+```sh
+  yarn test
+```
+
 #### One time local setup
 
 Install docker and docker-compose
@@ -94,11 +106,12 @@ Install docker and docker-compose
   - https://docs.docker.com/get-docker
   - https://docs.docker.com/compose/install
 
-Install python and pip
+Install python
 
 Install awscli
+
 ```sh
-  pip install awscli
+  pip3 install awscli
 ```
 
 Make docker containers
@@ -113,18 +126,6 @@ Make local S3 bucket
   yarn make-bucket
 
   yarn make-bucket-test
-```
-
-Install
-
-```sh
-  yarn
-```
-
-Test
-
-```sh
-  yarn test
 ```
 
 ### Prod
