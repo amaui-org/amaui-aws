@@ -8,20 +8,22 @@ dotenv.config({ path: envPath });
 class Config {
   default = {
     aws: {
-      s3: {},
-    },
+      s3: {
+
+      }
+    }
   };
 
   get config() {
     return {
       aws: {
         s3: {
-          access_key_id: process.env.SERVICE_AWS_S3_ACCESS_KEY_ID || this.default.aws.s3.access_key_id,
-          secret_access_key: process.env.SERVICE_AWS_S3_SECRET_ACCESS_KEY || this.default.aws.s3.secret_access_key,
-          bucket_name: process.env.SERVICE_AWS_S3_BUCKET_NAME || this.default.aws.s3.bucket_name,
+          accessKeyId: process.env.SERVICE_AWS_S3_ACCESS_KEY_ID || this.default.aws.s3.accessKeyId,
+          secretAccessKey: process.env.SERVICE_AWS_S3_SECRET_ACCESS_KEY || this.default.aws.s3.secretAccessKey,
+          bucketName: process.env.SERVICE_AWS_S3_BUCKET_NAME || this.default.aws.s3.bucketName,
           endpoint: process.env.SERVICE_AWS_S3_ENDPOINT || this.default.aws.s3.endpoint,
-          region: process.env.SERVICE_AWS_S3_REGION || this.default.aws.s3.region,
-        },
+          region: process.env.SERVICE_AWS_S3_REGION || this.default.aws.s3.region
+        }
       },
     };
   }

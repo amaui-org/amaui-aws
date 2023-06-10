@@ -1,7 +1,7 @@
 {
   "name": "@amaui/aws",
-  "version": "1.1.0",
-  "description": "AWS",
+  "version": "1.1.11",
+  "description": "AWS utils",
   "repository": "https://github.com/amaui-org/amaui-aws.git",
   "author": "Lazar <lazareric.com@gmail.com>",
   "license": "MIT",
@@ -33,14 +33,14 @@
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "type": "tsc --noEmit -p tsconfig.json",
     "cov": "cross-env NODE_ENV=test amaui-test",
-    "test": "yarn lint && yarn type && yarn build &&yarn cov",
+    "test": "yarn lint && yarn type && yarn build && yarn cov",
     "docker": "docker-compose -p 'amaui' up -d",
-    "aws": "cross-env AWS_ACCESS_KEY_ID=a AWS_SECRET_ACCESS_KEY=a4 aws s3 mb s3://amaui --endpoint-url http://localhost:4566",
-    "aws-test": "cross-env AWS_ACCESS_KEY_ID=a AWS_SECRET_ACCESS_KEY=a4 aws s3 mb s3://amaui-test --endpoint-url http://localhost:7566",
+    "aws": "cross-env AWS_ACCESS_KEY_ID=amaui AWS_SECRET_ACCESS_KEY=amaui aws s3 mb s3://amaui --endpoint-url http://localhost:4566",
+    "aws-test": "cross-env AWS_ACCESS_KEY_ID=amaui AWS_SECRET_ACCESS_KEY=amaui aws s3 mb s3://amaui-test --endpoint-url http://localhost:7566",
     "postdocker": "sleep 4 && yarn aws || echo '' && yarn aws-test || echo ''"
   },
   "peerDependencies": {
-    "aws-sdk": "^2.1054.0"
+    "@aws-sdk/client-s3": "^3.350.0"
   },
   "dependencies": {
     "@amaui/date": "^1.0.11414",
@@ -52,15 +52,15 @@
   "devDependencies": {
     "@amaui/models": "^1.0.1111",
     "@amaui/test": "^1.0.11111",
+    "@aws-sdk/client-s3": "^3.350.0",
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
     "@babel/plugin-transform-runtime": "^7.16.4",
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-typescript": "^7.16.0",
-    "@types/aws-sdk": "^2.7.0",
     "@types/express": "^4.17.13",
     "@types/node": "^18.0.4",
-    "aws-sdk": "^2.1068.0",
+    "aws-sdk-client-mock": "^2.1.1",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",

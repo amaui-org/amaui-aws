@@ -1,6 +1,4 @@
 /* tslint:disable: no-shadowed-variable */
-import aws from 'aws-sdk';
-
 import { assert } from '@amaui/test';
 
 import * as AmauiUtils from '@amaui/utils';
@@ -12,20 +10,16 @@ import Config from '../utils/js/config';
 
 const options = {
   s3: {
-    access: {
-      endpoint: Config.config.aws.s3.endpoint,
+    bucketName: Config.config.aws.s3.bucketName,
 
-      credentials: {
-        accessKeyId: Config.config.aws.s3.access_key_id,
-        secretAccessKey: Config.config.aws.s3.secret_access_key
-      }
+    credentials: {
+      accessKeyId: Config.config.aws.s3.accessKeyId,
+      secretAccessKey: Config.config.aws.s3.secretAccessKey
     },
 
-    bucket_name: Config.config.aws.s3.bucket_name
-  },
+    endpoint: Config.config.aws.s3.endpoint,
 
-  config: {
-    region: Config.config.aws.s3.region,
+    region: Config.config.aws.s3.region
   }
 };
 
@@ -96,8 +90,8 @@ group('@amaui/aws', () => {
         group('options', () => {
 
           to('pure', async () => {
-            const response = await amauiAws.s3.get('1', { type: 'text', pure: true }) as aws.S3.GetObjectOutput;
-            const response1 = await amauiAws.s3.get('1', { type: 'text', pure: false }) as aws.S3.GetObjectOutput;
+            const response = await amauiAws.s3.get('1', { type: 'text', pure: true }) as any;
+            const response1 = await amauiAws.s3.get('1', { type: 'text', pure: false }) as any;
 
             assert(response.AcceptRanges).eq('bytes');
             assert(AmauiUtils.is('buffer', response.Body)).eq(true);
@@ -138,8 +132,8 @@ group('@amaui/aws', () => {
         group('options', () => {
 
           to('pure', async () => {
-            const response = await amauiAws.s3.remove('1', { pure: true }) as aws.S3.DeleteObjectOutput;
-            const response1 = await amauiAws.s3.remove('2', { pure: false }) as aws.S3.DeleteObjectOutput;
+            const response = await amauiAws.s3.remove('1', { pure: true }) as any;
+            const response1 = await amauiAws.s3.remove('2', { pure: false }) as any;
 
             assert(response).eql({});
             assert(await amauiAws.s3.get('1')).eq(undefined);
@@ -152,7 +146,7 @@ group('@amaui/aws', () => {
         });
 
         to('remove', async () => {
-          await amauiAws.s3.remove('3') as aws.S3.DeleteObjectOutput;
+          await amauiAws.s3.remove('3') as any;
 
           assert(await amauiAws.s3.get('3')).eq(undefined);
 
@@ -160,7 +154,7 @@ group('@amaui/aws', () => {
         });
 
         to('Not found', async () => {
-          await amauiAws.s3.remove('4') as aws.S3.DeleteObjectOutput;
+          await amauiAws.s3.remove('4') as any;
         });
 
       });
@@ -177,8 +171,8 @@ group('@amaui/aws', () => {
         group('options', () => {
 
           to('pure', async () => {
-            const response = await amauiAws.s3.removeMany(['11', '12'], { pure: true }) as Array<aws.S3.DeleteObjectOutput>;
-            const response1 = await amauiAws.s3.removeMany(['13', '14'], { pure: false }) as Array<aws.S3.DeleteObjectOutput>;
+            const response = await amauiAws.s3.removeMany(['11', '12'], { pure: true }) as Array<any>;
+            const response1 = await amauiAws.s3.removeMany(['13', '14'], { pure: false }) as Array<any>;
 
             assert(response).eql(new Array(2).fill({}));
             assert(await amauiAws.s3.get('11')).eq(undefined);
@@ -190,7 +184,7 @@ group('@amaui/aws', () => {
         });
 
         to('removeMany', async () => {
-          await amauiAws.s3.removeMany(['11', '12']) as Array<aws.S3.DeleteObjectOutput>;
+          await amauiAws.s3.removeMany(['11', '12']) as Array<any>;
 
           assert(await amauiAws.s3.get('11')).eq(undefined);
           assert(await amauiAws.s3.get('12')).eq(undefined);

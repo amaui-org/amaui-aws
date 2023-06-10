@@ -41,10 +41,17 @@
   yarn add @amaui/aws
 ```
 
+Add `@aws-sdk/client-s3` peer dependency.
+
+```sh
+  yarn add @aws-sdk/client-s3
+```
+
 ### Use
 
 ```javascript
   import AmauiAws from '@amaui/aws';
+
   // Make if you wanna a config file and
   // inside of it add all the process.env related props
   import Config from './config';
@@ -52,21 +59,17 @@
   // Make a new aws instance
   const amauiAws = new AmauiAws({
     s3: {
-      access: {
-        endpoint: Config.aws.s3.endpoint,
+      bucketName: Config.aws.s3.bucketName,
 
-        credentials: {
-          accessKeyId: Config.aws.s3.access_key_id,
-          secretAccessKey: Config.aws.s3.secret_access_key
-        }
+      credentials: {
+        accessKeyId: Config.aws.s3.accessKeyId,
+        secretAccessKey: Config.aws.s3.secretAccessKey
       },
 
-      bucket_name: Config.aws.s3.bucket_name
-    },
+      endpoint: Config.aws.s3.endpoint,
 
-    config: {
-      region: Config.aws.s3.region,
-    },
+      region: Config.aws.s3.region
+    }
   });
 
   // Add
