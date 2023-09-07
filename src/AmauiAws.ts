@@ -1,5 +1,6 @@
 import * as AWS_S3 from '@aws-sdk/client-s3';
 import express from 'express';
+import { Readable } from 'stream';
 
 import is from '@amaui/utils/is';
 import merge from '@amaui/utils/merge';
@@ -60,6 +61,15 @@ export interface IOptions {
   config?: IOptionsConfig;
 }
 
+const getData = (stream: Readable) => {
+  return new Promise<Buffer>((resolve, reject) => {
+    const chunks: Buffer[] = []
+    stream.on('data', chunk => chunks.push(chunk))
+    stream.once('end', () => resolve(Buffer.concat(chunks)))
+    stream.once('error', reject)
+  })
+};
+
 const optionsDefault = {
   config: {
     apiVersion: '2006-03-01',
@@ -76,6 +86,8 @@ export class AmauiAws {
   public get connections(): IConnections {
     if (!this.connections_.s3) this.connections_.s3 = new AWS_S3.S3Client({
       region: this.options.config.region,
+
+      forcePathStyle: true,
 
       ...this.options.s3
     });
@@ -143,12 +155,12 @@ export class AmauiAws {
             })
           );
 
-          let value = response.Body;
+          let value: any = await getData(response.Body as any);
 
           if (value !== undefined) {
             if (['json', 'text'].indexOf(type) > -1) value = value.toString() as any;
 
-            if (['json'].indexOf(type) > -1) value = parse(value);
+            if (['json'].indexOf(type) > -1) value = parse(value.toString());
           }
 
           return thisClass.response(start, bucketName, 'get', pure ? response : value);
