@@ -109,13 +109,9 @@ Install docker and docker-compose
   - https://docs.docker.com/get-docker
   - https://docs.docker.com/compose/install
 
-Install python
+Install aws
 
-Install awscli
-
-```sh
-  pip3 install awscli
-```
+  - https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 
 Make docker containers
 
