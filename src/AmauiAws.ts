@@ -15,22 +15,22 @@ export interface IConnections {
   s3?: AWS_S3.S3Client;
 }
 
-export interface IOptionsS3Add {
+export interface IOptionsS3Add extends AWS_S3.PutObjectCommandInput {
   bucketName?: string;
 }
 
-export interface IOptionsS3Get {
+export interface IOptionsS3Get extends AWS_S3.GetObjectCommandInput {
   bucketName?: string;
   type: 'buffer' | 'json' | 'text';
   pure?: boolean;
 }
 
-export interface IOptionsS3Remove {
+export interface IOptionsS3Remove extends AWS_S3.DeleteObjectCommandInput {
   bucketName?: string;
   pure?: boolean;
 }
 
-export interface IOptionsS3RemoveMany {
+export interface IOptionsS3RemoveMany extends AWS_S3.DeleteObjectCommandInput {
   bucketName?: string;
   pure?: boolean;
 }
@@ -112,11 +112,17 @@ export class AmauiAws {
     const thisClass = this;
 
     return {
-      async add(id: string, value_: any, options: IOptionsS3Add = {}): Promise<AWS_S3.PutObjectOutput> {
+      async add(id: string, value_: any, options: Partial<IOptionsS3Add> = {}): Promise<AWS_S3.PutObjectOutput> {
         const connection = thisClass.connections.s3;
         const start = AmauiDate.utc.milliseconds;
 
-        const bucketName = options.bucketName || thisClass.options.s3.bucketName;
+        const {
+          bucketName,
+
+          ...other
+        } = options;
+
+        const Bucket = bucketName || thisClass.options.s3.bucketName;
 
         let value = value_;
 
@@ -127,7 +133,9 @@ export class AmauiAws {
             new AWS_S3.PutObjectCommand({
               Key: String(id),
               Body: Buffer.from(value, 'binary'),
-              Bucket: bucketName,
+              Bucket,
+
+              ...other
             })
           );
 
@@ -140,18 +148,26 @@ export class AmauiAws {
         }
       },
 
-      async get(id: string, options: IOptionsS3Get = { type: 'buffer' }): Promise<AWS_S3.GetObjectOutput | Buffer | string | object> {
+      async get(id: string, options: Partial<IOptionsS3Get> = { type: 'buffer' }): Promise<AWS_S3.GetObjectOutput | Buffer | string | object> {
         const connection = thisClass.connections.s3;
         const start = AmauiDate.utc.milliseconds;
 
-        const { type, pure } = options;
-        const bucketName = options.bucketName || thisClass.options.s3.bucketName;
+        const {
+          bucketName,
+          type,
+          pure,
+          ...other
+        } = options;
+
+        const Bucket = options.bucketName || thisClass.options.s3.bucketName;
 
         try {
           const response = await connection.send(
             new AWS_S3.GetObjectCommand({
               Key: String(id),
-              Bucket: bucketName,
+              Bucket,
+
+              ...other
             })
           );
 
@@ -174,18 +190,26 @@ export class AmauiAws {
         }
       },
 
-      async remove(id: string, options: IOptionsS3Remove = {}): Promise<AWS_S3.DeleteObjectOutput | boolean> {
+      async remove(id: string, options: Partial<IOptionsS3Remove> = {}): Promise<AWS_S3.DeleteObjectOutput | boolean> {
         const connection = thisClass.connections.s3;
         const start = AmauiDate.utc.milliseconds;
 
-        const { pure } = options;
-        const bucketName = options.bucketName || thisClass.options.s3.bucketName;
+        const {
+          bucketName,
+          pure,
+
+          ...other
+        } = options;
+
+        const Bucket = bucketName || thisClass.options.s3.bucketName;
 
         try {
           const response = await connection.send(
             new AWS_S3.DeleteObjectCommand({
               Key: String(id),
-              Bucket: bucketName,
+              Bucket,
+
+              ...other
             })
           );
 
@@ -202,7 +226,7 @@ export class AmauiAws {
         }
       },
 
-      async removeMany(ids: string[], options: IOptionsS3RemoveMany = {}): Promise<Array<AWS_S3.DeleteObjectOutput | boolean | Error>> {
+      async removeMany(ids: string[], options: Partial<IOptionsS3RemoveMany> = {}): Promise<Array<AWS_S3.DeleteObjectOutput | boolean | Error>> {
         const responses = [];
         const start = AmauiDate.utc.milliseconds;
 
