@@ -1,6 +1,6 @@
 {
   "name": "@amaui/aws",
-  "version": "1.1.13",
+  "version": "1.1.15",
   "description": "AWS utils",
   "repository": "https://github.com/amaui-org/amaui-aws.git",
   "author": "Lazar <lazareric.com@gmail.com>",
@@ -43,15 +43,15 @@
     "@aws-sdk/client-s3": "^3.350.0"
   },
   "dependencies": {
-    "@amaui/date": "^1.0.11414",
+    "@amaui/date": "^1.1.3",
     "@amaui/errors": "^1.0.111",
-    "@amaui/log": "^1.0.11141",
-    "@amaui/utils": "^1.0.11411",
+    "@amaui/log": "^1.0.15",
+    "@amaui/utils": "^1.1.17",
     "@babel/runtime": "^7.18.3"
   },
   "devDependencies": {
     "@amaui/models": "^1.0.1111",
-    "@amaui/test": "^1.0.11111",
+    "@amaui/test": "^1.1.1",
     "@aws-sdk/client-s3": "^3.350.0",
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",

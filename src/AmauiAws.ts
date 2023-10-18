@@ -7,7 +7,7 @@ import merge from '@amaui/utils/merge';
 import parse from '@amaui/utils/parse';
 import stringify from '@amaui/utils/stringify';
 import { AmauiAwsError } from '@amaui/errors';
-import AmauiDate from '@amaui/date/amaui-date';
+import AmauiDate from '@amaui/date/AmauiDate';
 import duration from '@amaui/date/duration';
 import AmauiLog from '@amaui/log';
 
