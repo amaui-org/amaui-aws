@@ -1,6 +1,6 @@
 
-</br >
-</br >
+</br>
+</br>
 
 <p align='center'>
   <a target='_blank' rel='noopener noreferrer' href='#'>
@@ -38,13 +38,13 @@
 ### Add
 
 ```sh
-  yarn add @amaui/aws
+yarn add @amaui/aws
 ```
 
 Add `@aws-sdk/client-s3` peer dependency.
 
 ```sh
-  yarn add @aws-sdk/client-s3
+yarn add @aws-sdk/client-s3
 ```
 
 ### Use
@@ -93,13 +93,13 @@ Add `@aws-sdk/client-s3` peer dependency.
 Install
 
 ```sh
-  yarn
+yarn
 ```
 
 Test
 
 ```sh
-  yarn test
+yarn test
 ```
 
 #### One time local setup
@@ -116,7 +116,7 @@ Install aws
 Make docker containers
 
 ```sh
-  yarn docker
+yarn docker
 ```
 
 ### Prod
@@ -124,5 +124,5 @@ Make docker containers
 Build
 
 ```sh
-  yarn build
+yarn build
 ```
